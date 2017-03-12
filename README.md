@@ -1,4 +1,5 @@
-# dssc2017-3d1p
+# DSSC 2017, 3D1P
+Data, Data, Data and Passion
 
 This is the GIT repository for group 3D1P, at UCL DSSC 2017
 
