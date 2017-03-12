@@ -2,8 +2,7 @@
 
 This is the GIT repository for group 3D1P, at UCL DSSC 2017
 
-<!DOCTYPE html>
-<html>
+```html
 <head><meta charset="utf-8" />
 <title>DSSC_MSFT</title>
 
@@ -14977,5 +14976,5 @@ RU5ErkJggg==
     </div>
   </div>
 </body>
-</html>
+```
 
