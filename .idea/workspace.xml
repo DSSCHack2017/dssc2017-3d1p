@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0963a15c-6196-4c41-81ca-e341778f7523" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/result/articles.csv" afterPath="$PROJECT_DIR$/result/MSFT_articles.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/visualizer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,14 +28,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nyt_parser.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nyt_parser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser/nyt_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="28" column="19" lean-forward="true" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+            <state relative-caret-position="359">
+              <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="visualizer.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/visualizer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="46" lean-forward="true" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -137,6 +148,7 @@
         <option value="$PROJECT_DIR$/classify.py" />
         <option value="$PROJECT_DIR$/process_data.py" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/visualizer.py" />
       </list>
     </option>
   </component>
@@ -573,11 +585,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parser/nyt_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="19" lean-forward="true" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+        <state relative-caret-position="359">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visualizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="46" lean-forward="true" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
