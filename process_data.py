@@ -6,58 +6,54 @@ from lxml import html
 from multiprocessing import Manager, cpu_count, Lock, Pool
 
 
-def main():
-    ticker = 'MSFT US Equity'
-    print('%i CPU' % cpu_count())
+# This file is used to fetch data from NYTimes, or any news articles, and find the content.
+# The content then is used to generate bag of words.
+def main(ticker):
+    start = datetime.now()
     pool = Pool(processes=cpu_count())
 
     manager = Manager()
     words = manager.list()
     bags = manager.dict()
 
-    lock = Lock()
-
-    with open('ms_equity.csv', 'r') as ms_equity:
+    with open(('result/%s.csv' % ticker), 'r') as ms_equity:
         reader = csv.reader(ms_equity)
 
         for row in list(reader):
-            # ticker = row[0]
             date = row[1]
             bags[(ticker, date)] = dict()
 
     header = True
-    i = 0
     with open('articles.csv', 'r') as ms_articles:
         reader = csv.reader(ms_articles)
-        start = datetime.now()
         for row in list(reader):
             if header:
                 header = False
                 continue
-            # i += 1
+
             url = row[0]
             date = row[3]
-            if i > 5:
-                break
 
             if (ticker, date) in bags:
-                pool.apply(func=get_sumbag, args=(url, bags, words, date, ))
+                pool.apply(func=get_sumbag, args=(ticker, url, bags, words, date, ))
 
     pool.close()
     pool.join()
 
     words = list(set(words))
 
-    with open('result.csv', 'w+') as csv_file:
+    # Write to CSV file
+    with open(('result/%s_result.csv' % ticker), 'w+') as csv_file:
         field_names = ['ticker', 'date']
         field_names += words
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
         writer.writeheader()
-        print(len(bags))
+
         for key, bag in bags.items():
             ticker = key[0]
             date = key[1]
 
+            # Count 0 word, that are in the other articles
             for word in words:
                 if word not in bag:
                     bag[word] = 0
@@ -69,20 +65,18 @@ def main():
     print('Total Operation took: %s' % str(datetime.now() - start))
 
 
-def get_sumbag(url, bags, words, date):
+def get_sumbag(ticker, url, bags, words, date):
 
-
-    ticker = 'MSFT US Equity'
     r = requests.get(url)
 
     tree = html.fromstring(r.content)
 
     content = tree.xpath('//p[@class="story-body-text story-content"]/text()')
 
-    bagsofwords = [collections.Counter(re.findall(r'\w+', txt.lower()))
-                   for txt in content]
+    # Generate bag of words
+    bag_of_words = [collections.Counter(re.findall(r'\w+', txt.lower())) for txt in content]
 
-    sumbags = dict(sum(bagsofwords, collections.Counter()))
+    sum_bag = dict(sum(bag_of_words, collections.Counter()))
 
     # remove articles & common be-verbs
     removals = list()
@@ -92,15 +86,16 @@ def get_sumbag(url, bags, words, date):
             removals.append(line)
 
     bag = dict()
-    for key in sumbags.keys():
-        if key not in removals and sumbags[key] > 1:
-            bag[key] = sumbags[key]
+    for key in sum_bag.keys():
+        if key not in removals and sum_bag[key] > 1:
+            bag[key] = sum_bag[key]
 
     words += bag.keys()
 
     if len(bags[(ticker, date)]) is 0:
         bags[(ticker, date)] = bag
 
+    # This was supposed to merge if there were multiple articles on the same date
     # else:
     #     tempDict = {x:y for x in bags[(ticker, date)]}
     # else:
@@ -110,5 +105,4 @@ def get_sumbag(url, bags, words, date):
     print('Sumbag Length: %i' % len(bag))
 
 if __name__ == '__main__':
-    main()
-    # test()
+    main(ticker='US MSFT')  # Needs to be found and replaced

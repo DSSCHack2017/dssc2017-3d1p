@@ -3,7 +3,7 @@ from customObject import Article
 import requests
 import csv
 import os
-import time
+import sys
 
 
 def run(years, months):
@@ -49,35 +49,40 @@ def fetch_data(year, month, articles):
 
     r = requests.get(nyt_url, params={'api-key': api_key})
 
-    if r.status_code is not 200:
+    if r.status_code is 200:
 
+        try:
+            r = r.json().get('response')
+            r = r.get('docs')
 
-    r = r.json().get('response').get('docs')
+            for doc in r:
 
-    for doc in r:
+                keyword_list = ''
+                found_word = False
+                for keyword in doc.get('keywords'):
+                    word = keyword.get('value').lower()
 
-        keyword_list = ''
-        found_word = False
-        for keyword in doc.get('keywords'):
-            word = keyword.get('value').lower()
+                    # Test if the word we are looking for is within the keywords
+                    if k_word in word:
+                        found_word = True
+                    keyword_list += word + ','
 
-            if k_word in word:
-                found_word = True
-            keyword_list += word + ','
+                if not found_word:
+                    continue
 
-        if not found_word:
-            continue
+                keyword_list = keyword_list[:-1]
 
-        keyword_list = keyword_list[:-1]
+                article = Article(
+                    web_url=doc.get('web_url').replace('\'', ''),
+                    snippet=doc.get('snippet').replace('\'', ''),
+                    keywords=keyword_list,
+                    pub_date=doc.get('pub_date')
+                )
 
-        article = Article(
-            web_url=doc.get('web_url').replace('\'', ''),
-            snippet=doc.get('snippet').replace('\'', ''),
-            keywords=keyword_list,
-            pub_date=doc.get('pub_date')
-        )
+                articles.append(article)
 
-        articles.append(article)
+        except ValueError:
+            pass
 
     print('Process %s - %s FINISHED' % (year, month))
 
